@@ -10,7 +10,7 @@
     "test": "jest",
     "cdk": "cdk",
     "minify": "jsmin -o scripts/config-enforcepermissionboundary.min.js scripts/config-enforcepermissionboundary.js",
-    "synth": "cdk synth > templates/AwsBiotechBlueprint.template.yml && mkdir -p lambda_functions/source/ && rm -rf lambda_functions/source/asset* && cp -a cdk.out/asset*/ lambda_functions/source/ && python3 SynthQuickstartTemplate.py"
+    "synth": "cdk synth"
   },
   "devDependencies": {
     "@aws-cdk/assert": "^1.94.0",

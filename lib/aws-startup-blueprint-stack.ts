@@ -72,6 +72,11 @@ export class AwsStartupBlueprintStack extends cdk.Stack {
       
     }
     
+    // ServiceCatalog
+    
+    const blueprintServiceCatalog = new BlueprintServiceCatalog(this, 'BlueprintServiceCatalog', {});
+    
+    
   }
 
 }
