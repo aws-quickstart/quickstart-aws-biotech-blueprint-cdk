@@ -1,10 +1,8 @@
 // Include details about the license and how they can sign up. If no license is required, clarify that. 
 
-The core of the {partner-product-short-name} is released under the Apache License 2.0. The tools listed in the {partner-product-short-name} Service Catalog have different licensing terms. 
+The core of the {partner-product-short-name} is released under the Apache License 2.0. Software available from the {partner-product-short-name} AWS Service Catalog have different licensing terms. 
 
-*Open Source Tools* - The Nextflow and Hail Service Catalog listings are open source and do not require a licnese to begin using them.
-
-*License Information* - The Dotmatics and Titian Service Catalog listings requires a license. Before deploying those tools from the Service Catalog, sign up for a license by contacting the support contact listed in the Service Catalog product listing.
+Nextflow and Hail 0.2 are open-source and do not require a license. Dotmatics and Titian require licenses. Before deploying Dotmatics and Titian from the AWS Service Catalog, sign up for a license by contacting the support contact provided in the AWS Service Catalog listing.
 
 // Or, if the deployment uses an AMI, update this paragraph. If it doesn’t, remove the paragraph.
-*AMI information* - The ChemAxon Quick Start requires a subscription to an Amazon Machine Image (AMI), which is available from https://aws.amazon.com/marketplace/pp/B077F6VV3B. Additional pricing, terms, and conditions may apply.
+The ChemAxon Quick Start requires a subscription to an Amazon Machine Image (AMI), which is available from https://aws.amazon.com/marketplace/pp/B077F6VV3B. Additional pricing, terms, and conditions may apply.

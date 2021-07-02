@@ -70,6 +70,10 @@ Conditions:
       - Fn::Equals:
         - Ref: AWS::Region
         - us-west-2
+  UsingDefaultQuickstartBucketc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49c:
+    Fn::Equals:
+    - Ref: AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketEAC9DD43
+    - aws-quickstart
 Description: AWS Biotech Blueprint CDK is an AWS Quick Start that helps Biotech companies
   deploy core AWS Infrastructure as well as CloudFormation templates for common ISV
   solutions. (qs-1of009lua) (ib-1of009lua)
@@ -361,7 +365,13 @@ Resources:
     Properties:
       Code:
         S3Bucket:
-          Ref: AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketEAC9DD43
+          Fn::If:
+          - UsingDefaultQuickstartBucketc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49c
+          - Fn::Join:
+            - '-'
+            - - Ref: AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketEAC9DD43
+              - Ref: AWS::Region
+          - Ref: AssetParametersc691172cdeefa2c91b5a2907f9d81118e47597634943344795f1a844192dd49cS3BucketEAC9DD43
         S3Key:
           Fn::Join:
           - ''

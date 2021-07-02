@@ -1,1 +1,1 @@
-All regions are currently support with the exception of AWS China Regions.
+This Quick Start does not support AWS China Regions. All other https://docs.aws.amazon.com/general/latest/gr/rande.html[AWS Regions^] are supported. 
