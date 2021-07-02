@@ -1,7 +1,5 @@
-// Edit this placeholder text to accurately describe your architecture.
+//For CDK Deployments use the following. Modify based on what is being deployed.
 
-This Quick Start provides two deployment options:
+This Quick Start relies on https://aws.amazon.com/cdk/[the AWS CDK^].
 
-* *CloudFormation Only Deployment*. This option uses CloudFormation directly to deploy the {partner-product-short-name} into your AWS account immediately. Use this option if you are unfamiliar with the AWS Cloud Development Kit and just want to get going ASAP.
-* *CDK Deployment*. This option uses the AWS Cloud Development Kit to deploy the {partner-product-short-name}. If you  want to cleanly manage/adapt/update the architecture over time, or you already aware of what the https://aws.amazon.com/cdk/[AWS CDK^] is, use this deployment option.
-
+* *CDK Deployment*. The AWS Cloud Development Kit {partner-product-short-name} will deploy all of the resources described in this Quick Start. It will make it easy to both initially deploy baseline on AWS (< {deployment_time}) as well cleanly manage/adapt/update/grow the architecture to your specific needs over time.
