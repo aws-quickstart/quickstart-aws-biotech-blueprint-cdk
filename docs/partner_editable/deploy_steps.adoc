@@ -1,54 +1,52 @@
 // We need to work around Step numbers here if we are going to potentially exclude the AMI subscription
-=== Sign in to your AWS account
+=== Planning the deployment
 
-. Sign in to your AWS account at https://aws.amazon.com with an IAM user or role that has the necessary permissions. For details, see link:#_planning_the_deployment[Planning the deployment] earlier in this guide.
-. Make sure that your AWS account is configured correctly, as discussed in the link:#_technical_requirements[Technical requirements] section.
+This Quick Start requires a moderate to high-level understanding of how to manage {partner-product-short-name}. This deployment also requires a moderate understanding of the following: https://docs.aws.amazon.com/servicequotas/latest/userguide/intro.html[Service Quotas^], https://docs.aws.amazon.com/cdk/latest/guide/home.html[AWS Cloud Development Kit (AWS CDK)^], and https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html[AWS CloudFormation^].
 
-NOTE: You are responsible for the cost of the AWS services used while running this Quick Start reference deployment. There is no additional cost for using this Quick Start. For full details, see the pricing pages for each AWS service used by this Quick Start. Prices are subject to change.
+The deployment process takes about {deployment_time} to complete, and the template launches in the {default_deployment_region} Region by default.
 
-// Optional based on Marketplace listing. Not to be edited
-ifdef::marketplace_subscription[]
-=== Subscribe to the {partner-product-short-name} AMI
+=== Launch the Quick Start
+To deploy this Quick Start, use AWS CDK. For more information, see https://docs.aws.amazon.com/cdk/latest/guide/work-with.html[Working with the AWS CDK^].
 
-This Quick Start requires a subscription to the AMI for {partner-product-short-name} in AWS Marketplace.
+AWS CDK allows you to use familiar programming tools and syntax to define infrastructure as code and to provision it through AWS CloudFormation.
 
-. Sign in to your AWS account.
-. {marketplace_listing_url}[Open the page for the {partner-product-short-name} AMI in AWS Marketplace], and then choose *Continue to Subscribe*.
-. Review the terms and conditions for software usage, and then choose *Accept Terms*. +
-  A confirmation page loads, and an email confirmation is sent to the account owner. For detailed subscription instructions, see the https://aws.amazon.com/marketplace/help/200799470[AWS Marketplace documentation^].
+If you want to get get going as fast as possible (< 90 seconds),  https://console.aws.amazon.com/cloudshell[click here to open AWS CloudShell] and run the following commands. It may take ~60 seconds for your first CloudShell session to start.
 
-. When the subscription process is complete, exit out of AWS Marketplace without further action. *Do not* provision the software from AWS Marketplace—the Quick Start deploys the AMI for you.
-endif::marketplace_subscription[]
-// \Not to be edited
+If you prefer using your own IDE like Cloud9 or VSCode, the following commands should work as well, as long as you have the https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_prerequisites[prerequisites for the AWS CDK] already installed. 
 
-=== Deployment Options
+. Ensure that you have the AWS CDK toolkit and typescript installed:
 
-The Biotech Blueprint is built with the AWS CDK which allows for two deployment options. 
+  npm install -g aws-cdk typescript
 
-If you are unfamiliar with the https://aws.amazon.com/cdk/[AWS CDK], or don't want to setup the CDK dependencies on your current computer, follow the CloudFormation Deployment option (1).
+. Verify the installation and check the current version:
 
-If you are familiar with the https://aws.amazon.com/cdk/[AWS CDK], plan on extending or customizing the Blueprint, follow the CDK Deployment option (2).
+  cdk --version
 
-Both deployment options take about ~7 minutes to complete and create the exact same architecture. The primary difference is that the AWS CDK deployment option takes a little more time for initial setup (<5 min), but the CDK code is easier to maintain overtime compared to the CloudFormation template in option 1.
+. Deploy the resources defined in the {partner-product-short-name} stack:
 
-TIP: The option to restrict your account to specific regions (ex US or EU only) is only available for CDK deployment option.
+  git clone {git_repo_url}
+  cd {quickstart-project-name}
+  npm install
 
-=== Deployment Option 1: AWS CloudFormation Deployment (quick and easy)
+. Deploy the AWS CDK Toolkit stack (for more information, see https://docs.aws.amazon.com/cdk/latest/guide/bootstrapping.html[Bootstrapping^]):
 
-. Sign in to your AWS account, and click the deploy link below to launch the AWS CloudFormation template. 
+  cdk bootstrap
 
-[cols=2*]
-|===
-^|https://fwd.aws/RAnNy[Deploy {partner-product-short-name} into your AWS Account^]
-^|https://fwd.aws/DzbRN[View template^]
-|===
+  npm run build
+  cdk deploy
 
+TIP: If you chose to use CloudShell, you can open it again by clicking on it's icon on the AWS Managment Console: image::../images/cloudshell.png[Config,width=100%,height=100%]
 
-[start=2]
-. Check the AWS Region that’s displayed in the upper-right corner of the navigation bar, and change it if necessary. This is where the network infrastructure for {partner-product-short-name} will be built. The template is launched in the {default_deployment_region} Region by default.
+==== Making updates before deployment
 
-// *Note:* This deployment includes Amazon EFS, which isn’t currently supported in all AWS Regions. For a current list of supported Regions, see the https://docs.aws.amazon.com/general/latest/gr/elasticfilesystem.html[endpoints and quotas webpage].
+Feel free to review the code and make any changes you see fit. For example, you might want to use different VPC CIDR ranges (`aws-vpcs.ts`) or a different internal DNS apex (`aws-dns.ts` defaults to corp). You don't need to make any modifications if you don't want to.
 
-[start=3]
-. On the *Create stack* page, keep the default setting for the template URL, and then choose *Next*.
-. On the *Specify stack details* page, change the stack name if needed. There are no parameters you need to supply.
+When you are ready, or when you need update the blueprint's architecture in the future based on changes you make, you just need to run:
+
+```bash 
+npm run build && cdk deploy
+```
+
+The `cdk deploy` command will give you a summary about IAM related changes about to be deployed and prompt you to acknowledge them. Simply hit 'y' and enter.
+
+The initial deployment should take about ~{deployment_time} to complete.

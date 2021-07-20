@@ -1,43 +1,3 @@
-// Add steps as necessary for accessing the software, post-configuration, and testing. Don’t include full usage instructions for your software, but add links to your product documentation for that information.
-//Should any sections not be applicable, remove them
-
-=== Deployment Option 2: AWS CDK deployment
-
-To deploy {partner-product-name} using AWS CDK, do the following:
-[start=1]
-. Verify that you have the https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_prerequisites[prerequisites^] to install the AWS CDK. 
-
-. https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html#getting_started_install[Install the AWS CDK^].
-
-. Clone the {partner-product-name} Quick Start repository.
-```bash
-git clone https://github.com/aws-quickstart/quickstart-aws-biotech-blueprint-cdk.git
-cd quickstart-aws-biotech-blueprint-cdk
-```
-[start=4]
-. Build the project.
-```bash
-npm install
-npm run build 
-```
-
-[start=5]
-. Bootstrap your AWS environment.
-```bash
-cdk bootstrap
-```
-
-NOTE: You can review and change code. For example, you can use different VPC CIDR ranges (`aws-vpcs.ts`) or a different internal DNS apex (`aws-dns.ts` defaults to `corp`). 
-
-[start=6]
-. Deploy.
-
-```bash 
-npm run build && cdk deploy
-```
-
-TIP: To update the architecture after making changes later, run the command in Step 6.
-
 == Post deployment steps
 // If Post-deployment steps are required, add them here. If not, remove the heading
 
@@ -103,6 +63,7 @@ The following table provides some examples.
 |Okta Cloud Connect appliance |Management VPC |Private
 |===
 
+Reserve public subnets for internet-facing resources such as load balancers. Use private subnets for resources that should not be internet-facing but require outbound internet access. Deploy sensitive resources such as databases addressable only by internal networks to isolated subnets which do not route traffic to the internet. For more information about public and private subnets, see https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenario2.html[VPC with public and private subnets (NAT)^].
 
 === Optional DNS setup
 The Quick Start sets up a private DNS with `.corp` as the apex domain using https://console.aws.amazon.com/route53/v2/home#Dashboard[Amazon Route 53 in your account^]. Using the Amazon Route 53 console, you can create `A` or `CNAME` records to private applications you deploy. 
@@ -166,13 +127,9 @@ WARNING: AWS Config conformance packs provide a general-purpose compliance frame
 
 //_Add any security-related information._
 
-//Provide any other information of interest to users, especially focusing on areas where AWS or cloud usage differs from on-premises usage.
-    
 == Restricting IAM actions to specific AWS Regions 
 
-A common requirement of startups using AWS is to be able to restrict IAM actions to specific AWS Regions. For example, they may want to restrict the creation of Amazon Elastic Compute Cloud (Amazon EC2) instances or AWS Simple Storage Service (Amazon S3) buckets to only European Regions. This could be for compliance reasons or simply because its a good practice to keep resources out of Regions you never intend to use. 
-
-If you have a single AWS account, the best way to enforce AWS Region restrictions is with an https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html[IAM permission boundary^]. The `RegionRestriction` class configured in `lib/aws-startup-blueprint-stack.ts` creates an IAM permission boundary. It restricts IAM actions to the AWS Regions you specify. For example:
+You can restrict IAM actions to EU or US AWS Regions. For example, you may want to restrict the creation of Amazon Elastic Compute Cloud (Amazon EC2) instances or AWS Simple Storage Service (Amazon S3) buckets to only European Regions. This could be for compliance reasons or simply because its a good practice to keep resources out of Regions you never intend to use. If you have a single AWS account, the best way to enforce AWS Region restrictions is with an https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html[IAM permission boundary^]. The `RegionRestriction` class configured in `lib/aws-startup-blueprint-stack.ts` creates an IAM permission boundary. It restricts IAM actions to the AWS Regions you specify. For example:
 
 ```typescript
       new RegionRestriction(this, 'RegionRestriction', {
@@ -186,7 +143,7 @@ In order for the permission boundary to have any effect, it needs to be attached
 
 To enforce the permission boundary, the `RegionRestriction` class creates an AWS Config rule to detect and remediate a missing IAM permission boundary. 
 
-For example, in AWS Config Rules console, select the `AwsBiotechBlueprint-RegionRestriction` rule.
+In order for the permission boundary to have any effect, it should be attached to all existing and future IAM users and roles. To enforce the permission boundary, the `RegionRestriction` class creates an AWS Config rule to detect and remediate a missing IAM permission boundary. For example, in AWS Config Rules console, select the `AwsBiotechBlueprint-RegionRestriction` rule.
 
 :xrefstyle: short
 [#rules]
@@ -222,7 +179,7 @@ image::../images/regionrestriction_config2.png[Config,width=100%,height=100%]
 .Edit Remediation action
 image::../images/regionrestriction_config3.png[Config,width=100%,height=100%]
 
-=== Region Restriction Capabilities in Multi Account Configurations:
+=== AWS Region restriction in multi-account configurations
 
 In a multi-account setup, Service Control Polices (SCPs) are superior to permission boundaries. SCPs are applied across an entire account and do not need to be individually attached to IAM principals. However, if you have only one account, use permission boundaries discussed previously to restrict Regions. SCPs only apply to sub-accounts. When you create a new account, the Region-restricting SCP created by the Biotech Blueprint will be applied automatically to any new account you create.
 
